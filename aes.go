@@ -3,17 +3,17 @@ package aes
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"io"
+	"math/rand"
 	"sync"
+	"time"
 )
 
 type WrapperOption func(w *Wrapper)
 
 var (
-	ErrKeyInvalidLength             = errors.New("entered key should have been 32 bytes in length")
+	ErrKeyInvalidLength             = errors.New("entered key should have been 16 or 32 bytes in length")
 	ErrLengthOfDataSmallerThanNonce = errors.New("data is smaller than nonce size")
 )
 
@@ -41,11 +41,10 @@ type Wrapper struct {
 // New returns a wrapped AES implementation designed to reduce the number of
 // new AES allocations
 func New(key []byte, options ...WrapperOption) (*Wrapper, error) {
-	if len(key) != 32 {
+	if len(key) != 16 && len(key) != 32 {
 		return nil, ErrKeyInvalidLength
 	}
 
-	// generate a new aes cipher using our 32 byte long key
 	c, err := aes.NewCipher(key)
 	if err != nil {
 		return nil, err
@@ -73,20 +72,15 @@ func New(key []byte, options ...WrapperOption) (*Wrapper, error) {
 
 // Encrypt encrypts and returns a URL safe base64 encoded string
 func (w *Wrapper) Encrypt(data []byte) (string, error) {
-	// populates our nonce with a cryptographically secure
-	// random sequence
 	w.mu.Lock()
 	defer w.mu.Unlock()
 
 	w.nonce = w.nonce[:]
-	_, err := io.ReadFull(rand.Reader, w.nonce)
-	if err != nil {
-		return "", err
-	}
-
+	generateNonce(w.nonce, w.gcm.NonceSize())
 	if w.StoreNonce {
 		data = append(append(data, nonceParamAsBytes...), w.nonce...)
 	}
+
 	return base64.RawURLEncoding.EncodeToString(w.gcm.Seal(w.nonce, w.nonce, data, nil)), nil
 }
 
@@ -116,4 +110,29 @@ func WithNonce(b bool) WrapperOption {
 	return func(w *Wrapper) {
 		w.StoreNonce = b
 	}
+}
+
+var src = rand.NewSource(time.Now().UnixNano())
+
+const (
+	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._"
+	letterIdxBits = 6                    // 6 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
+	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
+)
+
+func generateNonce(nonce []byte, n int) {
+	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
+		if remain == 0 {
+			cache, remain = src.Int63(), letterIdxMax
+		}
+		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
+			nonce[i] = letterBytes[idx]
+			i--
+		}
+		cache >>= letterIdxBits
+		remain--
+	}
+
+	return
 }
