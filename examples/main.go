@@ -9,7 +9,7 @@ import (
 func main() {
 	key := []byte("passphrasewhichneedstobe32bytes!")
 
-	aesWrapper, err := aes.New(key)
+	aesWrapper, err := aes.New(key, aes.WithNonce(true))
 	if err != nil {
 		panic(err)
 	}
@@ -22,19 +22,19 @@ func main() {
 
 	fmt.Println("1", encryptedData)
 	fmt.Println("D1", []byte(encryptedData))
-	d, err := aesWrapper.Decrypt(encryptedData)
+	d, _, err := aesWrapper.Decrypt(encryptedData)
 	fmt.Println("D1", d)
 
 	encryptedData, err = aesWrapper.Encrypt([]byte("hello world 2"))
 	fmt.Println("2", encryptedData)
 	fmt.Println("D2", []byte(encryptedData))
-	d, err = aesWrapper.Decrypt(encryptedData)
+	d, _, err = aesWrapper.Decrypt(encryptedData)
 	fmt.Println("D2", d)
 
 	encryptedData, err = aesWrapper.Encrypt([]byte("hello world 3"))
 	fmt.Println("3", encryptedData)
 	fmt.Println("D3", []byte(encryptedData))
-	d, err = aesWrapper.Decrypt(encryptedData)
+	d, _, err = aesWrapper.Decrypt(encryptedData)
 	fmt.Println("D3", d)
 
 }
