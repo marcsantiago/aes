@@ -3,9 +3,9 @@ package aes
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"math/rand"
 	"sync"
 )
 
