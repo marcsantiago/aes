@@ -7,7 +7,6 @@ import (
 	"errors"
 	"math/rand"
 	"sync"
-	"time"
 )
 
 type WrapperOption func(w *Wrapper)
@@ -76,7 +75,7 @@ func (w *Wrapper) Encrypt(data []byte) (string, error) {
 	defer w.mu.Unlock()
 
 	w.nonce = w.nonce[:]
-	generateNonce(w.nonce, w.gcm.NonceSize())
+	generateNonce(w.nonce)
 	if w.StoreNonce {
 		data = append(append(data, nonceParamAsBytes...), w.nonce...)
 	}
@@ -112,27 +111,14 @@ func WithNonce(b bool) WrapperOption {
 	}
 }
 
-var src = rand.NewSource(time.Now().UnixNano())
-
-const (
-	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._"
-	letterIdxBits = 6                    // 6 bits to represent a letter index
-	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
-	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
-)
-
-func generateNonce(nonce []byte, n int) {
-	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
-		if remain == 0 {
-			cache, remain = src.Int63(), letterIdxMax
-		}
-		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
-			nonce[i] = letterBytes[idx]
-			i--
-		}
-		cache >>= letterIdxBits
-		remain--
+func generateNonce(nonce []byte) error {
+	const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
+	_, err := rand.Read(nonce)
+	if err != nil {
+		return err
 	}
-
-	return
+	for i, b := range nonce {
+		nonce[i] = letters[b%byte(len(letters))]
+	}
+	return nil
 }

@@ -144,9 +144,9 @@ var _testData = []byte("https://foo.bar?foo=bar&foo=bar&foo=bar&foo=bar&foo=bar&
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkWrapper_EncryptWithoutNonce16-12    	  659404	      1800 ns/op	    3968 B/op	       3 allocs/op
-//BenchmarkWrapper_EncryptWithoutNonce16-12    	  662394	      1814 ns/op	    3968 B/op	       3 allocs/op
-//BenchmarkWrapper_EncryptWithoutNonce16-12    	  676144	      1831 ns/op	    3968 B/op	       3 allocs/op
+//BenchmarkWrapper_EncryptWithoutNonce16-12    	  666382	      1752 ns/op	    3968 B/op	       3 allocs/op
+//BenchmarkWrapper_EncryptWithoutNonce16-12    	  672789	      1776 ns/op	    3968 B/op	       3 allocs/op
+//BenchmarkWrapper_EncryptWithoutNonce16-12    	  656556	      1769 ns/op	    3968 B/op	       3 allocs/op
 func BenchmarkWrapper_EncryptWithoutNonce16(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -162,9 +162,9 @@ func BenchmarkWrapper_EncryptWithoutNonce16(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkWrapper_EncryptWithoutNonce32-12    	  647694	      1843 ns/op	    3968 B/op	       3 allocs/op
-//BenchmarkWrapper_EncryptWithoutNonce32-12    	  631762	      1823 ns/op	    3968 B/op	       3 allocs/op
-//BenchmarkWrapper_EncryptWithoutNonce32-12    	  633357	      1824 ns/op	    3968 B/op	       3 allocs/op
+//BenchmarkWrapper_EncryptWithoutNonce32-12    	  633075	      1874 ns/op	    3968 B/op	       3 allocs/op
+//BenchmarkWrapper_EncryptWithoutNonce32-12    	  653932	      1896 ns/op	    3968 B/op	       3 allocs/op
+//BenchmarkWrapper_EncryptWithoutNonce32-12    	  650206	      1849 ns/op	    3968 B/op	       3 allocs/op
 func BenchmarkWrapper_EncryptWithoutNonce32(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -180,9 +180,9 @@ func BenchmarkWrapper_EncryptWithoutNonce32(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkWrapper_EncryptWithNonce16-12       	  579730	      2048 ns/op	    6272 B/op	       4 allocs/op
-//BenchmarkWrapper_EncryptWithNonce16-12       	  587854	      2034 ns/op	    6272 B/op	       4 allocs/op
-//BenchmarkWrapper_EncryptWithNonce16-12       	  564966	      2043 ns/op	    6272 B/op	       4 allocs/op
+//BenchmarkWrapper_EncryptWithNonce16-12       	  554881	      2133 ns/op	    6272 B/op	       4 allocs/op
+//BenchmarkWrapper_EncryptWithNonce16-12       	  558675	      2075 ns/op	    6272 B/op	       4 allocs/op
+//BenchmarkWrapper_EncryptWithNonce16-12       	  543390	      2087 ns/op	    6272 B/op	       4 allocs/op
 func BenchmarkWrapper_EncryptWithNonce16(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -198,9 +198,9 @@ func BenchmarkWrapper_EncryptWithNonce16(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkWrapper_EncryptWithNonce32-12       	  545180	      2118 ns/op	    6272 B/op	       4 allocs/op
-//BenchmarkWrapper_EncryptWithNonce32-12       	  570616	      2116 ns/op	    6272 B/op	       4 allocs/op
-//BenchmarkWrapper_EncryptWithNonce32-12       	  553452	      2125 ns/op	    6272 B/op	       4 allocs/op
+//BenchmarkWrapper_EncryptWithNonce32-12       	  532650	      2289 ns/op	    6272 B/op	       4 allocs/op
+//BenchmarkWrapper_EncryptWithNonce32-12       	  466364	      2360 ns/op	    6272 B/op	       4 allocs/op
+//BenchmarkWrapper_EncryptWithNonce32-12       	  545844	      2144 ns/op	    6272 B/op	       4 allocs/op
 func BenchmarkWrapper_EncryptWithNonce32(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -216,9 +216,9 @@ func BenchmarkWrapper_EncryptWithNonce32(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkBasicAESEncrypt16-12                	  528060	      2176 ns/op	    4752 B/op	       9 allocs/op
-//BenchmarkBasicAESEncrypt16-12                	  558070	      2137 ns/op	    4752 B/op	       9 allocs/op
-//BenchmarkBasicAESEncrypt16-12                	  578755	      2152 ns/op	    4752 B/op	       9 allocs/op
+//BenchmarkBasicAESEncryptWithoutNonce16-12    	  549015	      2112 ns/op	    4752 B/op	       9 allocs/op
+//BenchmarkBasicAESEncryptWithoutNonce16-12    	  558584	      2072 ns/op	    4752 B/op	       9 allocs/op
+//BenchmarkBasicAESEncryptWithoutNonce16-12    	  549009	      2122 ns/op	    4752 B/op	       9 allocs/op
 func BenchmarkBasicAESEncryptWithoutNonce16(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -232,9 +232,9 @@ func BenchmarkBasicAESEncryptWithoutNonce16(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkBasicAESEncryptWithoutNonce32-12    	  491658	      2426 ns/op	    4880 B/op	       9 allocs/op
-//BenchmarkBasicAESEncryptWithoutNonce32-12    	  502287	      2200 ns/op	    4880 B/op	       9 allocs/op
-//BenchmarkBasicAESEncryptWithoutNonce32-12    	  529857	      2202 ns/op	    4880 B/op	       9 allocs/op
+//BenchmarkBasicAESEncryptWithoutNonce32-12    	  524796	      2232 ns/op	    4880 B/op	       9 allocs/op
+//BenchmarkBasicAESEncryptWithoutNonce32-12    	  517574	      2198 ns/op	    4880 B/op	       9 allocs/op
+//BenchmarkBasicAESEncryptWithoutNonce32-12    	  532609	      2173 ns/op	    4880 B/op	       9 allocs/op
 func BenchmarkBasicAESEncryptWithoutNonce32(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -248,9 +248,9 @@ func BenchmarkBasicAESEncryptWithoutNonce32(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkBasicAESEncryptWithNonce16-12       	  410562	      2500 ns/op	    7056 B/op	      10 allocs/op
-//BenchmarkBasicAESEncryptWithNonce16-12       	  452568	      2513 ns/op	    7056 B/op	      10 allocs/op
-//BenchmarkBasicAESEncryptWithNonce16-12       	  457440	      2728 ns/op	    7056 B/op	      10 allocs/op
+//BenchmarkBasicAESEncryptWithNonce16-12       	  479899	      2449 ns/op	    7056 B/op	      10 allocs/op
+//BenchmarkBasicAESEncryptWithNonce16-12       	  463212	      2438 ns/op	    7056 B/op	      10 allocs/op
+//BenchmarkBasicAESEncryptWithNonce16-12       	  447985	      2554 ns/op	    7056 B/op	      10 allocs/op
 func BenchmarkBasicAESEncryptWithNonce16(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -264,9 +264,9 @@ func BenchmarkBasicAESEncryptWithNonce16(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
-//BenchmarkBasicAESEncryptWithNonce32-12       	  423657	      2608 ns/op	    7184 B/op	      10 allocs/op
-//BenchmarkBasicAESEncryptWithNonce32-12       	  463635	      2564 ns/op	    7184 B/op	      10 allocs/op
-//BenchmarkBasicAESEncryptWithNonce32-12       	  397566	      2573 ns/op	    7184 B/op	      10 allocs/op
+//BenchmarkBasicAESEncryptWithNonce32-12       	  445752	      2594 ns/op	    7184 B/op	      10 allocs/op
+//BenchmarkBasicAESEncryptWithNonce32-12       	  440553	      2650 ns/op	    7184 B/op	      10 allocs/op
+//BenchmarkBasicAESEncryptWithNonce32-12       	  449634	      2638 ns/op	    7184 B/op	      10 allocs/op
 func BenchmarkBasicAESEncryptWithNonce32(b *testing.B) {
 	var encryptedData string
 	var err error
@@ -293,7 +293,7 @@ func _encryptAES(key []byte, data []byte) (string, error) {
 	}
 
 	nonce := make([]byte, gcm.NonceSize())
-	generateNonce(nonce, gcm.NonceSize())
+	generateNonce(nonce)
 	return base64.RawURLEncoding.EncodeToString(gcm.Seal(nonce, nonce, data, nil)), nil
 }
 
@@ -313,7 +313,7 @@ func _encryptAESWithNonce(key []byte, data []byte) (string, error) {
 	}
 
 	nonce := make([]byte, gcm.NonceSize())
-	generateNonce(nonce, gcm.NonceSize())
+	generateNonce(nonce)
 	data = append(append(data, nonceParamAsBytes...), nonce...)
 	return base64.RawURLEncoding.EncodeToString(gcm.Seal(nonce, nonce, data, nil)), nil
 }
