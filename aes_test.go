@@ -277,6 +277,84 @@ func BenchmarkBasicAESEncryptWithNonce32(b *testing.B) {
 	}
 }
 
+//goos: darwin
+//goarch: amd64
+//pkg: github.com/marcsantiago/aes
+//BenchmarkWrapper_Decrypt16-12    	  539811	      2235 ns/op	    4624 B/op	       5 allocs/op
+//BenchmarkWrapper_Decrypt16-12    	  533332	      2234 ns/op	    4624 B/op	       5 allocs/op
+//BenchmarkWrapper_Decrypt16-12    	  528891	      2212 ns/op	    4624 B/op	       5 allocs/op
+func BenchmarkWrapper_Decrypt16(b *testing.B) {
+	var decryptedData, nonce string
+	var err error
+	_ = decryptedData
+	_ = err
+	_ = nonce
+	w, _ := New(_testKey16)
+	encryptedData, _ := w.Encrypt(_testData)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		decryptedData, nonce, err = w.Decrypt(encryptedData)
+	}
+}
+
+//goos: darwin
+//goarch: amd64
+//pkg: github.com/marcsantiago/aes
+//BenchmarkWrapper_Decrypt32-12    	  497193	      2312 ns/op	    4624 B/op	       5 allocs/op
+//BenchmarkWrapper_Decrypt32-12    	  452444	      2366 ns/op	    4624 B/op	       5 allocs/op
+//BenchmarkWrapper_Decrypt32-12    	  467012	      2355 ns/op	    4624 B/op	       5 allocs/op
+func BenchmarkWrapper_Decrypt32(b *testing.B) {
+	var decryptedData, nonce string
+	var err error
+	_ = decryptedData
+	_ = err
+	_ = nonce
+	w, _ := New(_testKey32)
+	encryptedData, _ := w.Encrypt(_testData)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		decryptedData, nonce, err = w.Decrypt(encryptedData)
+	}
+}
+
+//goos: darwin
+//goarch: amd64
+//pkg: github.com/marcsantiago/aes
+//BenchmarkBasicAESDecrypt16-12    	  421969	      2594 ns/op	    5392 B/op	      10 allocs/op
+//BenchmarkBasicAESDecrypt16-12    	  444854	      2640 ns/op	    5392 B/op	      10 allocs/op
+//BenchmarkBasicAESDecrypt16-12    	  442753	      2702 ns/op	    5392 B/op	      10 allocs/op
+func BenchmarkBasicAESDecrypt16(b *testing.B) {
+	var decryptedData, nonce string
+	var err error
+	_ = decryptedData
+	_ = err
+	_ = nonce
+	encryptedData, _ := _encryptAES(_testKey16, _testData)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		decryptedData, nonce, err = _decryptAES(_testKey16, encryptedData)
+	}
+}
+
+//goos: darwin
+//goarch: amd64
+//pkg: github.com/marcsantiago/aes
+//BenchmarkBasicAESDecrypt32-12    	  414838	      2896 ns/op	    5520 B/op	      10 allocs/op
+//BenchmarkBasicAESDecrypt32-12    	  411270	      2828 ns/op	    5520 B/op	      10 allocs/op
+//BenchmarkBasicAESDecrypt32-12    	  427802	      2848 ns/op	    5520 B/op	      10 allocs/op
+func BenchmarkBasicAESDecrypt32(b *testing.B) {
+	var decryptedData, nonce string
+	var err error
+	_ = decryptedData
+	_ = err
+	_ = nonce
+	encryptedData, _ := _encryptAES(_testKey32, _testData)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		decryptedData, nonce, err = _decryptAES(_testKey32, encryptedData)
+	}
+}
+
 func _encryptAES(key []byte, data []byte) (string, error) {
 	if len(key) != 16 && len(key) != 32 {
 		return "", ErrKeyInvalidLength
@@ -316,4 +394,37 @@ func _encryptAESWithNonce(key []byte, data []byte) (string, error) {
 	generateNonce(nonce)
 	data = append(append(data, nonceParamAsBytes...), nonce...)
 	return base64.RawURLEncoding.EncodeToString(gcm.Seal(nonce, nonce, data, nil)), nil
+}
+
+func _decryptAES(key []byte, data string) (string, string, error) {
+	if len(key) != 16 && len(key) != 32 {
+		return "", "", ErrKeyInvalidLength
+	}
+
+	c, err := aes.NewCipher(key)
+	if err != nil {
+		return "", "", err
+	}
+
+	gcm, err := cipher.NewGCM(c)
+	if err != nil {
+		return "", "", err
+	}
+
+	nonceSize := gcm.NonceSize()
+	if len(data) < nonceSize {
+		return "", "", ErrLengthOfDataSmallerThanNonce
+	}
+
+	rawData, err := base64.RawURLEncoding.DecodeString(data)
+	if err != nil {
+		return "", "", err
+	}
+
+	nonce, cipherText := rawData[:nonceSize], rawData[nonceSize:]
+	plaintext, err := gcm.Open(nil, nonce, cipherText, nil)
+	if err != nil {
+		return "", "", err
+	}
+	return string(plaintext), string(nonce), nil
 }
