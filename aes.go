@@ -112,7 +112,7 @@ func WithNonce(b bool) WrapperOption {
 }
 
 func generateNonce(nonce []byte) error {
-	const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"
+	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 	_, err := rand.Read(nonce)
 	if err != nil {
 		return err
