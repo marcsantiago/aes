@@ -198,6 +198,24 @@ func BenchmarkWrapper_EncryptWithNonce16(b *testing.B) {
 //goos: darwin
 //goarch: amd64
 //pkg: github.com/marcsantiago/aes
+//BenchmarkWrapper_EncryptWithNonce16Goroutine-12    	  599726	      1680 ns/op	     533 B/op	       2 allocs/op
+//BenchmarkWrapper_EncryptWithNonce16Goroutine-12    	 1000000	      1577 ns/op	     637 B/op	       1 allocs/op
+//BenchmarkWrapper_EncryptWithNonce16Goroutine-12    	 1000000	      1441 ns/op	     690 B/op	       1 allocs/op
+func BenchmarkWrapper_EncryptWithNonce16Goroutine(b *testing.B) {
+	w, _ := New(_testKey16, WithNonce(true))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		go func() {
+			encryptedData, err := w.Encrypt(_testData)
+			_ = encryptedData
+			_ = err
+		}()
+	}
+}
+
+//goos: darwin
+//goarch: amd64
+//pkg: github.com/marcsantiago/aes
 //BenchmarkWrapper_EncryptWithNonce32-12       	  439687	      2655 ns/op	    6272 B/op	       4 allocs/op
 //BenchmarkWrapper_EncryptWithNonce32-12       	  436164	      2683 ns/op	    6272 B/op	       4 allocs/op
 //BenchmarkWrapper_EncryptWithNonce32-12       	  413631	      2780 ns/op	    6272 B/op	       4 allocs/op
@@ -210,6 +228,24 @@ func BenchmarkWrapper_EncryptWithNonce32(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		encryptedData, err = w.Encrypt(_testData)
+	}
+}
+
+//goos: darwin
+//goarch: amd64
+//pkg: github.com/marcsantiago/aes
+//BenchmarkWrapper_EncryptWithNonce32Goroutine-12    	  751116	      1674 ns/op	     856 B/op	       2 allocs/op
+//BenchmarkWrapper_EncryptWithNonce32Goroutine-12    	 1000000	      1389 ns/op	     935 B/op	       1 allocs/op
+//BenchmarkWrapper_EncryptWithNonce32Goroutine-12    	 1000000	      1081 ns/op	     912 B/op	       1 allocs/op
+func BenchmarkWrapper_EncryptWithNonce32Goroutine(b *testing.B) {
+	w, _ := New(_testKey32, WithNonce(true))
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		go func() {
+			encryptedData, err := w.Encrypt(_testData)
+			_ = encryptedData
+			_ = err
+		}()
 	}
 }
 
