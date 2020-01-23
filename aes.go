@@ -86,14 +86,14 @@ func (w *Wrapper) Encrypt(data []byte) (string, error) {
 // Decrypt decrypts the encrypted the base64 URL encoded string and also returns the nonce to check against replay attacks
 // this assumes that the encrypted data stored the nonce as well
 func (w *Wrapper) Decrypt(data string) (string, string, error) {
-	nonceSize := w.gcm.NonceSize()
-	if len(data) < nonceSize {
-		return "", "", ErrLengthOfDataSmallerThanNonce
-	}
-
 	rawData, err := base64.RawURLEncoding.DecodeString(data)
 	if err != nil {
 		return "", "", err
+	}
+
+	nonceSize := w.gcm.NonceSize()
+	if len(rawData) < nonceSize {
+		return "", "", ErrLengthOfDataSmallerThanNonce
 	}
 
 	nonce, cipherText := rawData[:nonceSize], rawData[nonceSize:]
