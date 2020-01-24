@@ -37,6 +37,12 @@ type Wrapper struct {
 	StoreNonce bool
 }
 
+// Cipher an interface which will make mocking test easier
+type Cipher interface {
+	Encrypt(data []byte) (string, error)
+	Decrypt(data string) (string, string, error)
+}
+
 // New returns a wrapped AES implementation designed to reduce the number of
 // new AES allocations
 func New(key []byte, options ...WrapperOption) (*Wrapper, error) {
