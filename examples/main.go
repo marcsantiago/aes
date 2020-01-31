@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/marcsantiago/aes"
+	"github.com/marcsantiago/aeswrapper"
 )
 
 func main() {
 	key := []byte("passphrasewhichneedstobe32bytes!")
 
-	aesWrapper, err := aes.New(key, aes.WithNonce(true))
+	aesWrapper, err := aeswrapper.New(key, aeswrapper.WithNonce(true))
 	if err != nil {
 		panic(err)
 	}

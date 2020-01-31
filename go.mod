@@ -1,4 +1,4 @@
-module github.com/marcsantiago/aes
+module github.com/marcsantiago/aeswrapper
 
 go 1.13
 

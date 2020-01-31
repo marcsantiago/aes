@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/marcsantiago/aes"
+	"github.com/marcsantiago/aeswrapper"
 	"github.com/urfave/cli/v2"
 )
 
@@ -52,7 +52,7 @@ func main() {
 				return errors.New("key should be either 16 or 32 bytes long")
 			}
 
-			wrapper, err := aes.New([]byte(key), aes.WithNonce(withNonceParameter))
+			wrapper, err := aeswrapper.New([]byte(key), aeswrapper.WithNonce(withNonceParameter))
 			if err != nil {
 				return err
 			}
