@@ -22,7 +22,7 @@ func main() {
 				Usage:       "encryption or decryption key",
 				Required:    true,
 				Destination: &key,
-				EnvVars:     []string{"AES-WRAPPER-KEY"},
+				EnvVars:     []string{"AES_WRAPPER_KEY"},
 			},
 			&cli.StringFlag{
 				Name:        "data",
